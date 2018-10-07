@@ -8,11 +8,19 @@
 
 import UIKit
 
+protocol PacmanViewDataSource: class { //class se pone porque hemos definido el datasource con weak
+    
+    func initialAngle() -> Double
+    func finalAngle() -> Double
+}
+
 @IBDesignable
 class PacmanView: UIView {
     
-    var a0: Double = 0
-    var a1: Double = (Double.pi * 2)
+    weak var datasource: PacmanViewDataSource!
+    
+    //var a0: Double = 0
+    //var a1: Double = (Double.pi * 2)
 
     override func draw(_ rect: CGRect) {
       
@@ -25,9 +33,9 @@ class PacmanView: UIView {
         
         path.move(to: c)
         path.addArc(withCenter: c,
-                    radius: r,
-                    startAngle: CGFloat(a0),
-                    endAngle: CGFloat(a1),
+                    radius: CGFloat(r),
+                    startAngle: CGFloat(datasource.initialAngle()),
+                    endAngle: CGFloat(datasource.finalAngle()),
                     clockwise: true)
         path.close()
         
